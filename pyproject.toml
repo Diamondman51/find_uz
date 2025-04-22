@@ -14,6 +14,10 @@ uvicorn = "^0.34.1"
 ngrok = "^1.4.0"
 pillow = "^11.2.1"
 whitenoise = "^6.9.0"
+djangorestframework-simplejwt = "^5.5.0"
+drf-spectacular = "^0.28.0"
+windows-curses = "^2.4.1"
+adrf = "^0.1.9"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -25,7 +29,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.dpy]
 name = "finduz"
-entrypoint = ["python", "-m", "core"]
+entrypoint = ["python", "manage.py", "runserver"]
 python = "3.12"
 base-image = "python:3.12-slim"
 
