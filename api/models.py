@@ -17,7 +17,9 @@ class User(AbstractUser):
             raise ValidationError('Invalid phone number')
     
     def set_password(self, raw_password):
-        return super().set_password(raw_password)
+        if not raw_password.startswith('pbkdf2_sha'):
+            return super().set_password(raw_password)
+        return raw_password
     
     def save(self, *args, **kwargs):
         self.validate_phone_number()

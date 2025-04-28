@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'dictionary',
-    # 'drf_spectacular_sidecar',
 ]
 
 AUTHENTICATION_BACKENDS = [
