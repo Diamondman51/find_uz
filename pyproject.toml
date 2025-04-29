@@ -6,7 +6,7 @@ authors = ["Javakhir Shavkatov <zshavkatov51@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.8"
 dockerpyze = "^2.2.0"
 django = "^5.2"
 djangorestframework = "^3.16.0"
@@ -16,9 +16,7 @@ pillow = "^11.2.1"
 whitenoise = "^6.9.0"
 djangorestframework-simplejwt = "^5.5.0"
 drf-spectacular = "^0.28.0"
-windows-curses = "^2.4.1"
 adrf = "^0.1.9"
-
 
 [tool.poetry.group.dev.dependencies]
 dockerpyze = "^2.2.0"
