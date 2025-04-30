@@ -5,6 +5,7 @@ from django.db import models
 
 class DiplomaticTerm(models.Model):
     title = models.CharField(max_length=255, unique=True)
+    photo = models.ImageField(upload_to='images/terms/', blank=True, null=True)
     definition = models.TextField()
     related_terms = models.ManyToManyField('self', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

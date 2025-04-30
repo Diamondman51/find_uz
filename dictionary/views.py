@@ -16,7 +16,7 @@ class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, Gener
     serializer_class = DiplomaticTermSerializer
 
 
-class CreateDiplomaticTermView(mixins.CreateModelMixin, GenericViewSet):
+class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     queryset = DiplomaticTerm.objects.all()
     serializer_class = DiplomaticTermSerializer
     permission_classes = [IsAuthenticated]

@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+from core import settings
 
 
 urlpatterns = [
@@ -29,4 +32,4 @@ urlpatterns = [
     path('finduz/', include('api.urls')),
     path('auth/', include('authenticate.urls')),
     path('dictionary/', include('dictionary.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
