@@ -9,7 +9,7 @@ class DiplomaticTermSerializer(serializers.ModelSerializer):
         extra_kwargs = {'title': {'required': True}, 
                         'definition': {'required': True}, 
                         'related_terms': {'required': False}, 
-                        'category ': {'required': False}, 
+                        'category': {'required': False}, 
                         'related_countries': {'required': False}, 
                         'sources': {'required': False}}
         
