@@ -128,20 +128,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            # Пример конфигурации:
-            "access_key": "...",
-            "secret_key": "...",
-            "bucket_name": "...",
-        },
-    }
-}
+
 
 ROOT_URLCONF = 'core.urls'
 
@@ -213,7 +200,6 @@ STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = 'media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
