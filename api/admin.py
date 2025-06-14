@@ -18,9 +18,36 @@ class UserAdmin(admin.ModelAdmin):
     ordering = ('username',)
 
 
+class ItemImagesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'item_f', 'image')
+
+    def item_f(self, obj):
+        return obj.item.item_name
+
+
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ['sender', 'receiver', 'content', 'created_at', 'image', 'file']
+
+
+class MessageImageAdmin(admin.ModelAdmin):
+    list_display = ['message_f', 'image']
+
+    def message_f(self, obj):
+        return obj.message.id
+
+
+class MessageFileAdmin(admin.ModelAdmin):
+    list_display = ['message_f', 'file']
+
+    def message_f(self, obj):
+        return obj.message.id
+    
 
 # Register your models here.
 admin.site.register(User, UserAdmin)
-admin.site.register(ItemImages)
+admin.site.register(ItemImages, ItemImagesAdmin)
 admin.site.register(Items, ItemAdmin)
 admin.site.register(Category)
+admin.site.register(Message, MessageAdmin)
+admin.site.register(MessageImage, MessageImageAdmin)
+admin.site.register(MessageFile, MessageFileAdmin)
