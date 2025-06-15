@@ -93,7 +93,7 @@ class Message(models.Model):
 
 
 class MessageImage(models.Model):
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, blank=None, null=None)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='messageimages', blank=None, null=None)
     image = models.ImageField(upload_to='images/messages/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
@@ -103,7 +103,7 @@ class MessageImage(models.Model):
 
 
 class MessageFile(models.Model):
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, blank=None, null=None)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='messagefiles', blank=None, null=None)
     file = models.ImageField(upload_to='files/messages/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 

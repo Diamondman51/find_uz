@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import status
+from django.db.models import Prefetch
 
 from django.db.models import Q
 from api.models import ItemImages, Items, Message, MessageFile, MessageImage, User
@@ -91,8 +92,15 @@ class MessageView(mixins.ListModelMixin, GenericViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
+    def get_queryset(self):
+        print('Hello')
+        return Message.objects.filter(
+            Q(sender=self.request.user) | Q(receiver=self.request.user)
+        ).prefetch_related(Prefetch('messageimages', queryset=MessageImage.objects.all()),
+                           Prefetch('messagefiles', queryset=MessageFile.objects.all()))
 
-class EditMessageView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.CreateModelMixin, GenericViewSet):
+
+class EditMessageView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
     queryset = Message.objects.all()
     serializer_class = CreateMessageSerializer
@@ -101,7 +109,7 @@ class EditMessageView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.
 class CreateMessageView(mixins.CreateModelMixin, GenericViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Message.objects.all()
-    serializer_class = MessageSerializer
+    serializer_class = CreateMessageSerializer
 
 
 class MessageFilesView(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.CreateModelMixin, GenericViewSet):

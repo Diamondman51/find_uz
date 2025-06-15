@@ -26,18 +26,20 @@ class ItemImagesAdmin(admin.ModelAdmin):
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['sender', 'receiver', 'content', 'created_at', 'image', 'file']
+    list_display = ['id', 'sender', 'receiver', 'content', 'created_at', 'image', 'file']
 
 
 class MessageImageAdmin(admin.ModelAdmin):
-    list_display = ['message_f', 'image']
+    list_display = ['id', 'message_f', 'image']
+    list_display_links = ['id', 'message_f']
 
     def message_f(self, obj):
         return obj.message.id
 
 
 class MessageFileAdmin(admin.ModelAdmin):
-    list_display = ['message_f', 'file']
+    list_display = ['id', 'message_f', 'file']
+    list_display_links = ['id', 'message_f']
 
     def message_f(self, obj):
         return obj.message.id
