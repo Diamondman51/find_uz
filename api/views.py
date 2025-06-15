@@ -117,7 +117,6 @@ class MessageFilesView(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.C
     queryset = MessageFile.objects.all()
     serializer_class = MessageFilesSerializer
 
-    
     def get_queryset(self):
         return MessageFile.objects.filter(
             Q(message__sender=self.request.user) | Q(message__receiver=self.request.user)
@@ -127,9 +126,13 @@ class MessageFilesView(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.C
 class MessageImagesView(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.CreateModelMixin, GenericViewSet):
     permission_classes = [IsAuthenticated]
     queryset = MessageImage.objects.all()
-    # authentication_classes = [JWTAuthentication]
+    authentication_classes = [JWTAuthentication, BasicAuthentication]
     serializer_class = MessageImagesSerializer
 
+
+    def list(self, request, *args, **kwargs):
+        print(f'{request.headers=}')
+        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         return MessageImage.objects.filter(

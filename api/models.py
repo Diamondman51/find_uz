@@ -104,7 +104,7 @@ class MessageImage(models.Model):
 
 class MessageFile(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='messagefiles', blank=None, null=None)
-    file = models.ImageField(upload_to='files/messages/%Y/%m/%d')
+    file = models.FileField(upload_to='files/messages/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def delete(self, using = None, keep_parents = False):
