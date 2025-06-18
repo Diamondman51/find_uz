@@ -4,6 +4,29 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 
 
+class DiplomaticTermUser(AbstractUser):
+    username = models.CharField(max_length=100, unique=True, blank=False, null=False)
+    phone_number = models.CharField(max_length=13, unique=True, blank=True, null=True, help_text='+998901234567')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    
+    def validate_phone_number(self):
+        reg = r'^\+?998[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})$'
+        if not re.match(reg, self.phone_number):
+            raise ValidationError('Invalid phone number')
+    
+    def set_password(self, raw_password):
+        if not raw_password.startswith('pbkdf2_sha'):
+            return super().set_password(raw_password)
+        return raw_password
+    
+    def save(self, *args, **kwargs):
+        self.validate_phone_number()
+        self.set_password(self.password)
+        return super().save(*args, **kwargs)
+
+
 class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True, blank=False, null=False)
     phone_number = models.CharField(max_length=13, unique=True, blank=True, null=True, help_text='+998901234567')
