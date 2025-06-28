@@ -43,8 +43,11 @@ class Country(models.Model):
 
 class Source(models.Model):
     title = models.CharField(max_length=255)
-    url = models.URLField(blank=True)
+    url = models.URLField(blank=True, null=True)
     publication_date = models.DateField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['publication_date']
 
     def __str__(self):
         return self.title

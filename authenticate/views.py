@@ -7,4 +7,3 @@ from authenticate.ser import UserTokenSerializer
 
 class UserTokenObtainPairView(TokenObtainPairView):
     serializer_class = UserTokenSerializer
-

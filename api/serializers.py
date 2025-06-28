@@ -1,5 +1,7 @@
 from email import message
 import json
+import re
+from django.http import HttpResponse
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_serializer
 from api.models import ItemImages, Items, Message, MessageFile, MessageImage, User
@@ -8,8 +10,15 @@ from api.models import ItemImages, Items, Message, MessageFile, MessageImage, Us
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'phone_number', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ['id', 'username', 'first_name', 'last_name', 'phone_number', 'password', 'user_type']
+        extra_kwargs = {'password': {'write_only': True}, "user_type": {"read_only": True}}
+
+    def validate_phone_number(self, phone_number):
+        reg = r'^\+?998[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})$'
+        if not re.match(reg, phone_number):
+            raise serializers.ValidationError("Invalid phone number")
+        
+        return phone_number
 
 
 class ItemsSerializer(serializers.ModelSerializer):

@@ -13,16 +13,8 @@ from api.permissions import IsOwner
 from api.serializers import CreateMessageSerializer, ItemImagesSerializer, ItemsSerializer, MessageFilesSerializer, MessageImagesSerializer, MessageSerializer, UserSerializer
 # Create your views here.
 
-
-# class UserView(ListAPIView, CreateAPIView, GenericAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     authentication_classes = [JWTAuthentication, SessionAuthentication]
-#     permission_classes = [IsAuthenticated]
-
-
 class UserView(mixins.UpdateModelMixin, mixins.ListModelMixin, GenericViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.filter(user_type='find_uz_user')
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
@@ -45,12 +37,26 @@ class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+    def create(self, request, *args, **kwargs):
+        ser = self.get_serializer(request.data)
+        ser.is_valid(raise_exception=True)
+        ser.save(user_type='find_uz_user')
+        res = self.get_serializer(ser)
+        return Response(res.data, status=status.HTTP_201_CREATED)
+
 
 class AdminUserView(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.filter(user_type='find_uz_user')
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
+
+    def create(self, request, *args, **kwargs):
+        ser = self.get_serializer(data=request.data)
+        ser.is_valid(raise_exception=True)
+        ser = ser.save(user_type='find_uz_user')
+        res = self.get_serializer(ser)
+        return Response(res.data, status=status.HTTP_201_CREATED)
 
 
 class ItemsView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):

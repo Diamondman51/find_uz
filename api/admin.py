@@ -13,10 +13,11 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'email')
+    list_display = ('id', 'username', 'email', 'first_name', 'created_at', 'updated_at')
     list_display_links = ('id', 'username', 'email')
     ordering = ('username',)
-
+    readonly_fields = ('created_at', 'updated_at')
+    
 
 class ItemImagesAdmin(admin.ModelAdmin):
     list_display = ('id', 'item_f', 'image')
