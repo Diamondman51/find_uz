@@ -1,9 +1,5 @@
-from email import message
-import json
 import re
-from django.http import HttpResponse
 from rest_framework import serializers
-from drf_spectacular.utils import extend_schema_serializer
 from api.models import ItemImages, Items, Message, MessageFile, MessageImage, User
 
 

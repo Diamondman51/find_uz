@@ -6,10 +6,9 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 
-from api.models import User
 from api.serializers import UserSerializer
 from dictionary.models import Category, DiplomaticTerm
-from dictionary.serializers import DiplomaticTermSerializer
+from dictionary.serializers import CategorySerializer, DiplomaticTermSerializer
 
 
 # Create your views here.
@@ -28,12 +27,12 @@ class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin
 
 class CategoryView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = Category.objects.all()
-    serializer_class = DiplomaticTermSerializer
+    serializer_class = CategorySerializer
 
 
 class CreateCategoryView(mixins.CreateModelMixin, GenericViewSet):
     queryset = Category.objects.all()
-    serializer_class = DiplomaticTermSerializer
+    serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
 
