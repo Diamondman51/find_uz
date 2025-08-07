@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from api.serializers import UserSerializer
-from dictionary.models import Category, DiplomaticTerm
-from dictionary.serializers import CategorySerializer, DiplomaticTermSerializer
+from dictionary.models import Category, DiplomaticTerm, DiplomaticTermPhoto
+from dictionary.serializers import CategorySerializer, DiplomaticTermPhotoSerializer, DiplomaticTermSerializer
 
 
 # Create your views here.
@@ -16,6 +16,13 @@ from dictionary.serializers import CategorySerializer, DiplomaticTermSerializer
 class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = DiplomaticTerm.objects.all()
     serializer_class = DiplomaticTermSerializer
+
+
+class DiplomaticTermPhotoView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+    queryset = DiplomaticTermPhoto.objects.all()
+    serializer_class = DiplomaticTermPhotoSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication, BasicAuthentication]
 
 
 class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet):
@@ -37,11 +44,13 @@ class CreateCategoryView(mixins.CreateModelMixin, GenericViewSet):
     authentication_classes = [JWTAuthentication, BasicAuthentication]
 
 
+
+
 class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = UserSerializer
     
     def create(self, request, *args, **kwargs):
-        print(f'{request.headers=}')
+        # print(f'{request.headers=}')
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
