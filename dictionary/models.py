@@ -5,16 +5,20 @@ from django.db import models
 
 class DiplomaticTerm(models.Model):
     title = models.CharField(max_length=255, unique=True)
-    photo = models.ImageField(upload_to='images/terms/', blank=True, null=True)
     definition = models.TextField()
     related_terms = models.ManyToManyField('self', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ManyToManyField('Category', null=True, blank=True)
     related_countries = models.ManyToManyField('Country', blank=True)
     sources = models.ManyToManyField('Source', blank=True)
+    photo_id = models.ManyToManyField('DiplomaticTermPhoto', null=True, blank=True)
 
     def __str__(self):
         return self.title
+
+
+class DiplomaticTermPhoto(models.Model):
+    photo = models.ImageField(upload_to='images/terms/', blank=True, null=True)
 
 
 class Category(models.Model):

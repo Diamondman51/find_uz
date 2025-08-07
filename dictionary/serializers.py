@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from dictionary.models import Category, DiplomaticTerm
+from dictionary.models import Category, DiplomaticTerm, DiplomaticTermPhoto
 
 class DiplomaticTermSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,8 +14,14 @@ class DiplomaticTermSerializer(serializers.ModelSerializer):
                         'sources': {'required': False}}
         
 
+class DiplomaticTermPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DiplomaticTermPhoto
+        fields = '__all__'
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name']
+
 
