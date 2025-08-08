@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from api.serializers import UserSerializer
-from dictionary.models import Category, DiplomaticTerm, DiplomaticTermPhoto
-from dictionary.serializers import CategorySerializer, DiplomaticTermPhotoSerializer, DiplomaticTermSerializer
+from dictionary.models import Category, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
+from dictionary.serializers import CategorySerializer, CountrySerializer, DiplomaticTermPhotoSerializer, DiplomaticTermSerializer, SourceSerializer
 
 
 # Create your views here.
@@ -21,6 +21,20 @@ class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, Gener
 class DiplomaticTermPhotoView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
     queryset = DiplomaticTermPhoto.objects.all()
     serializer_class = DiplomaticTermPhotoSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication, BasicAuthentication]
+
+
+class CountryView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication, BasicAuthentication]
+
+
+class SourceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+    queryset = Source.objects.all()
+    serializer_class = SourceSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
 
@@ -42,8 +56,6 @@ class CreateCategoryView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
-
-
 
 
 class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
