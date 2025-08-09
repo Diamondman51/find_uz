@@ -32,7 +32,7 @@ class CountryView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Creat
     authentication_classes = [JWTAuthentication, BasicAuthentication]
 
 
-class SourceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+class SourceView(mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
     queryset = Source.objects.all()
     serializer_class = SourceSerializer
     permission_classes = [IsAuthenticated]
@@ -51,7 +51,7 @@ class CategoryView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericView
     serializer_class = CategorySerializer
 
 
-class CreateCategoryView(mixins.CreateModelMixin, GenericViewSet):
+class CreateCategoryView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated]
