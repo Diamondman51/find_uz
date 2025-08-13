@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-snp5^tjhgi#^-%j02nwx*1b59+lq7$q7kgo&ov*ur^oz(-*em+'
+SECRET_KEY = secrets.token_hex(32)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -151,6 +152,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.asgi.application'
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Database
