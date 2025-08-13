@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from dictionary.models import Category, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
+from dictionary.models import Category, Contact, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
 
 
 class DiplomaticTermPhotoSerializer(serializers.ModelSerializer):
@@ -15,8 +15,6 @@ class SourceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-        
-
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
@@ -26,28 +24,48 @@ class CountrySerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'created_at', 'updated_at']
 
 
 class RelatedDiplomaticTermSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiplomaticTerm
-        fields = ['id', 'title']  # only show basic info to avoid recursion
+        fields = ['id', 'title', 'created_at', 'updated_at']  # only show basic info to avoid recursion
 
 
-class DiplomaticTermSerializer(serializers.ModelSerializer):
-    photo_id = DiplomaticTermPhotoSerializer(many=True, read_only=True)
-    sources = SourceSerializer(many=True, read_only=True)
-    category = CategorySerializer(many=True, read_only=True)
+class DiplomaticTermReadSerializer(serializers.ModelSerializer):
+    related_terms = RelatedDiplomaticTermSerializer(many=True, read_only=True)
+    categories = CategorySerializer(many=True, read_only=True)
     related_countries = CountrySerializer(many=True, read_only=True)
-    # related_terms = RelatedDiplomaticTermSerializer(many=True, read_only=True)
+    sources = SourceSerializer(many=True, read_only=True)
     class Meta:
         model = DiplomaticTerm
-        fields = '__all__'
+        exclude = ['photo_id']
+        # fields = '__all__'
         extra_kwargs = {'title': {'required': True}, 
                         'definition': {'required': True}, 
                         'related_terms': {'required': False}, 
-                        'category': {'required': False}, 
+                        'categories': {'required': False}, 
                         'related_countries': {'required': False}, 
                         'sources': {'required': False}}
-        depth = 1
+
+
+
+class DiplomaticTermWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DiplomaticTerm
+        exclude = ['photo_id']
+        # fields = '__all__'
+        extra_kwargs = {'title': {'required': True}, 
+                        'definition': {'required': True}, 
+                        'related_terms': {'required': False}, 
+                        'categories': {'required': False}, 
+                        'related_countries': {'required': False}, 
+                        'sources': {'required': False}}
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+

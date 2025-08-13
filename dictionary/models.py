@@ -1,6 +1,8 @@
 import datetime
 from django.db import models
 
+from api.models import User
+
 # Create your models here.
 
 
@@ -10,10 +12,10 @@ class DiplomaticTerm(models.Model):
     related_terms = models.ManyToManyField('self', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    category = models.ManyToManyField('Category', null=True, blank=True)
+    categories = models.ManyToManyField('Category', blank=True)
     related_countries = models.ManyToManyField('Country', blank=True)
     sources = models.ManyToManyField('Source', blank=True)
-    photo_id = models.ManyToManyField('DiplomaticTermPhoto', null=True, blank=True)
+    photo_id = models.ManyToManyField('DiplomaticTermPhoto', blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -65,7 +67,16 @@ class Source(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
     class Meta:
-        ordering = ['publication_date']
+        ordering = ['-publication_date']
 
     def __str__(self):
         return self.title
+
+
+class Contact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    full_name = models.CharField(max_length=255)
+    email_address = models.EmailField(null=False, blank=False)
+    message = models.TextField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)

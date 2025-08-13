@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from dictionary.models import Category, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
+from dictionary.models import Category, Contact, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
 
 # Register your models here.
 
@@ -24,8 +24,13 @@ class SourceAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'url', 'created_at', 'updated_at']
 
 
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['id', 'full_name', 'email_address', 'created_at', 'updated_at']
+
+
 admin.site.register(DiplomaticTerm, DiplomaticTermAdmin)
 admin.site.register(DiplomaticTermPhoto, DiplomaticTermPhotoAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Source, SourceAdmin)
+admin.site.register(Contact, ContactAdmin)
