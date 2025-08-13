@@ -132,6 +132,8 @@ MIDDLEWARE = [
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 
+# settings.py
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 ROOT_URLCONF = 'core.urls'
 
