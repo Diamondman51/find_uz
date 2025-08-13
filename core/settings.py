@@ -131,6 +131,10 @@ MIDDLEWARE = [
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'https://diplomatic-ictionary.vercel.app/'
+]
 
 # settings.py
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
