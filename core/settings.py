@@ -133,7 +133,7 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    'https://diplomatic-ictionary.vercel.app/'
+    'https://diplomatic-ictionary.vercel.app'
 ]
 
 # settings.py

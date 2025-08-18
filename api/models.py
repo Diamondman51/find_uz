@@ -33,8 +33,9 @@ class User(AbstractUser):
 
 
 class DictUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='dict_user')
+    is_admin = models.BooleanField(default=False)
+
 
 class FindUzUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

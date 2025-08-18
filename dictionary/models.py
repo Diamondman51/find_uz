@@ -7,17 +7,17 @@ from api.models import User
 
 
 class DiplomaticTerm(models.Model):
-    title = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=255, unique=True, )
     definition = models.TextField()
-    related_terms = models.ManyToManyField('self', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    categories = models.ManyToManyField('Category', blank=True)
-    related_countries = models.ManyToManyField('Country', blank=True)
-    sources = models.ManyToManyField('Source', blank=True)
-    photo_id = models.ManyToManyField('DiplomaticTermPhoto', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
+    related_terms = models.ManyToManyField('self', blank=True, )
+    created_at = models.DateTimeField(auto_now_add=True, )
+    updated_at = models.DateTimeField(auto_now=True, )
+    categories = models.ManyToManyField('Category', blank=True, )
+    related_countries = models.ManyToManyField('Country', blank=True, )
+    sources = models.ManyToManyField('Source', blank=True, )
+    photo_id = models.ManyToManyField('DiplomaticTermPhoto', blank=True, )
+    created_at = models.DateTimeField(auto_now_add=True, null=True, )
+    updated_at = models.DateTimeField(auto_now=True, null=True, )
 
     def __str__(self):
         return self.title

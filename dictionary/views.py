@@ -5,17 +5,51 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.filters import SearchFilter
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from api.serializers import UserSerializer
 from dictionary.models import Category, Contact, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
-from dictionary.serializers import CategorySerializer, ContactSerializer, CountrySerializer, DiplomaticTermPhotoSerializer, DiplomaticTermReadSerializer, DiplomaticTermWriteSerializer, SourceSerializer
+from dictionary.serializers import CategorySerializer, ContactSerializer, CountrySerializer, DiplomaticTermDetailSerializer, DiplomaticTermPhotoSerializer, DiplomaticTermReadSerializer, DiplomaticTermWriteSerializer, SourceSerializer
 
 
 # Create your views here.
 
-class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
+class DiplomaticTermView(mixins.ListModelMixin, GenericViewSet):
+    queryset = DiplomaticTerm.objects.all()
+    # prefetch_related(
+    #     'related_terms',
+    #     'categories',
+    #     'related_countries',
+    #     'sources',
+    #     'photo_id',
+    # )
+    serializer_class = DiplomaticTermReadSerializer
+
+    @method_decorator(cache_page(60*5))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+
+class DiplomaticTermDetailView(mixins.RetrieveModelMixin, GenericViewSet):
+    queryset = DiplomaticTerm.objects.all()
+    # prefetch_related(
+    #     'related_terms',
+    #     'categories',
+    #     'related_countries',
+    #     'sources',
+    #     'photo_id',
+    # )
+    serializer_class = DiplomaticTermDetailSerializer
+
+
+class SearchTermView(mixins.ListModelMixin, GenericViewSet):
     queryset = DiplomaticTerm.objects.all()
     serializer_class = DiplomaticTermReadSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['title',]
 
 
 class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):

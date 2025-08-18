@@ -34,6 +34,23 @@ class RelatedDiplomaticTermSerializer(serializers.ModelSerializer):
 
 
 class DiplomaticTermReadSerializer(serializers.ModelSerializer):
+    # related_terms = RelatedDiplomaticTermSerializer(many=True, read_only=True)
+    # categories = CategorySerializer(many=True, read_only=True)
+    # related_countries = CountrySerializer(many=True, read_only=True)
+    # sources = SourceSerializer(many=True, read_only=True)
+    class Meta:
+        model = DiplomaticTerm
+        # exclude = ['photo_id']
+        fields = ['id', 'title']
+        # extra_kwargs = {'title': {'required': True},
+        #                 'definition': {'required': True},
+        #                 'related_terms': {'required': False},
+        #                 'categories': {'required': False},
+        #                 'related_countries': {'required': False},
+        #                 'sources': {'required': False}}
+
+
+class DiplomaticTermDetailSerializer(serializers.ModelSerializer):
     related_terms = RelatedDiplomaticTermSerializer(many=True, read_only=True)
     categories = CategorySerializer(many=True, read_only=True)
     related_countries = CountrySerializer(many=True, read_only=True)
@@ -41,13 +58,13 @@ class DiplomaticTermReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiplomaticTerm
         exclude = ['photo_id']
-        # fields = '__all__'
-        extra_kwargs = {'title': {'required': True}, 
-                        'definition': {'required': True}, 
-                        'related_terms': {'required': False}, 
-                        'categories': {'required': False}, 
-                        'related_countries': {'required': False}, 
-                        'sources': {'required': False}}
+        # fields = ['id', 'title']
+        # extra_kwargs = {'title': {'required': True},
+        #                 'definition': {'required': True},
+        #                 'related_terms': {'required': False},
+        #                 'categories': {'required': False},
+        #                 'related_countries': {'required': False},
+        #                 'sources': {'required': False}}
 
 
 
