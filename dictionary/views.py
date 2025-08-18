@@ -5,6 +5,7 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.filters import SearchFilter
 
 from api.serializers import UserSerializer
 from dictionary.models import Category, Contact, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
@@ -16,6 +17,13 @@ from dictionary.serializers import CategorySerializer, ContactSerializer, Countr
 class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = DiplomaticTerm.objects.all()
     serializer_class = DiplomaticTermReadSerializer
+
+
+class SearchTermView(mixins.ListModelMixin, GenericViewSet):
+    queryset = DiplomaticTerm.objects.all()
+    serializer_class = DiplomaticTermReadSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['title',]
 
 
 class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):

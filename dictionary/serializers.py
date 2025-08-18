@@ -42,12 +42,12 @@ class DiplomaticTermReadSerializer(serializers.ModelSerializer):
         model = DiplomaticTerm
         exclude = ['photo_id']
         # fields = '__all__'
-        extra_kwargs = {'title': {'required': True}, 
-                        'definition': {'required': True}, 
-                        'related_terms': {'required': False}, 
-                        'categories': {'required': False}, 
-                        'related_countries': {'required': False}, 
-                        'sources': {'required': False}}
+        # extra_kwargs = {'title': {'required': True}, 
+        #                 'definition': {'required': True}, 
+        #                 'related_terms': {'required': False}, 
+        #                 'categories': {'required': False}, 
+        #                 'related_countries': {'required': False}, 
+        #                 'sources': {'required': False}}
 
 
 

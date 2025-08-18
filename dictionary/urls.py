@@ -1,12 +1,13 @@
 from rest_framework.routers import DefaultRouter
 
-from dictionary.views import CategoryView, ContactAdminView, ContactView, CountryAdminView, CountryView, CreateCategoryView, CreateDiplomaticTermView, DiplomaticTermPhotoAdminView, DiplomaticTermPhotoView, DiplomaticTermView, SourceAdminView, SourceView, UserCreateView 
+from dictionary.views import CategoryView, ContactAdminView, ContactView, CountryAdminView, CountryView, CreateCategoryView, CreateDiplomaticTermView, DiplomaticTermPhotoAdminView, DiplomaticTermPhotoView, DiplomaticTermView, SearchTermView, SourceAdminView, SourceView, UserCreateView 
 
 router = DefaultRouter()
 
 router.register('term', DiplomaticTermView, basename='diplomatic_term')
-router.register('category', CategoryView, basename='category')
+router.register('search_term', SearchTermView, basename='search_term')
 router.register('create_term', CreateDiplomaticTermView, basename='create_term')
+router.register('category', CategoryView, basename='category')
 router.register('create_category', CreateCategoryView, basename='create_category')
 router.register('user_create', UserCreateView, basename='user_create')
 router.register('term_photo_admin', DiplomaticTermPhotoAdminView, basename='term_photo_admin')
