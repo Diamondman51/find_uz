@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True, blank=False, null=False)
-    phone_number = models.CharField(max_length=13, unique=True, blank=True, null=True, help_text='+998901234567')
+    phone_number = models.CharField(max_length=13, unique=True, blank=True, null=False, help_text='+998901234567')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -19,7 +19,7 @@ class User(AbstractUser):
     def clean(self):
         super().clean()
         reg = r'^\+?998[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})$'
-        if not re.match(reg, self.phone_number):
+        if not self.phone_number or not re.match(reg, self.phone_number):
             raise ValidationError({'phone_number': 'Phone number must be in the format +998901234567'})
     
     def set_password(self, raw_password):
@@ -31,10 +31,14 @@ class User(AbstractUser):
         self.set_password(self.password)
         return super().save(*args, **kwargs)
 
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
 
 class DictUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='dict_user')
-    is_admin = models.BooleanField(default=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='dict_user', related_name='dict_user')
+    dict_admin = models.BooleanField(default=False)
 
 
 class FindUzUser(models.Model):

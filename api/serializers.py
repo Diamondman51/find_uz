@@ -7,11 +7,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'phone_number', 'password', 'user_type']
-        extra_kwargs = {'password': {'write_only': True}, "user_type": {"read_only": True}}
+        extra_kwargs = {'password': {'write_only': True}, "user_type": {"read_only": True}, 'phone_number': {'required': True}}
 
     def validate_phone_number(self, phone_number):
         reg = r'^\+?998[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})$'
-        if not re.match(reg, phone_number):
+        if not phone_number or not re.match(reg, phone_number):
             raise serializers.ValidationError("Invalid phone number")
         
         return phone_number

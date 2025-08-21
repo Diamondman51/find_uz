@@ -1,5 +1,7 @@
+from api.models import DictUser
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -12,11 +14,46 @@ from django.views.decorators.cache import cache_page
 
 from api.serializers import UserSerializer
 from dictionary.models import Category, Contact, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
-from dictionary.serializers import CategorySerializer, ContactSerializer, CountrySerializer, DiplomaticTermDetailSerializer, DiplomaticTermPhotoSerializer, DiplomaticTermReadSerializer, DiplomaticTermWriteSerializer, SourceSerializer
+from dictionary.permissions import IsAdmin
+from dictionary.serializers import CategorySerializer, ContactSerializer, CountrySerializer, DictUserSerializer, DiplomaticTermDetailSerializer, DiplomaticTermPhotoSerializer, DiplomaticTermReadSerializer, DiplomaticTermWriteSerializer, SourceSerializer
 
 
 # Create your views here.
 
+class DictUserView(mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
+    queryset = DictUser.objects.select_related('user')
+    serializer_class = DictUserSerializer
+    permission_classes = [IsAuthenticated]
+    
+
+    def destroy(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            return super().destroy(request, *args, **kwargs)
+        return Response('You do not have required permission')
+
+    def partial_update(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            return super().partial_update(request, *args, **kwargs)
+        return Response('You do not have required permission')
+
+    def update(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            return super().update(request, *args, **kwargs)
+        return Response('You do not have required permission')
+    
+    def list(self, request, *args, **kwargs):
+        if request.user.is_superuser or request.user.dict_user.dict_admin:
+            q = DictUser.objects.exclude(user=request.user.id)
+            ser = self.get_serializer(q, many=True)
+            return Response(ser.data)
+        return Response('You do not have required permission')
+    
+    def retrieve(self, request, *args, **kwargs):    
+        if request.user.is_superuser or request.user.dict_user.dict_admin:
+            return super().retrieve(request, *args, **kwargs)
+        return Response('You do not have required permission')
+    
+    
 class DiplomaticTermView(mixins.ListModelMixin, GenericViewSet):
     queryset = DiplomaticTerm.objects.all()
     # prefetch_related(
@@ -53,10 +90,21 @@ class SearchTermView(mixins.ListModelMixin, GenericViewSet):
 
 
 class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
-    queryset = DiplomaticTerm.objects.all()
+    queryset = DiplomaticTerm.objects.prefetch_related(
+        'related_terms',
+        'categories',
+        'related_countries',
+        'sources',
+        'photo_id',
+    )
+
     serializer_class = DiplomaticTermWriteSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
+    
+    @method_decorator(cache_page(60*5))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class DiplomaticTermPhotoAdminView(mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
