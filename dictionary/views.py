@@ -105,6 +105,11 @@ class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin
     @method_decorator(cache_page(60*5))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        ser = DiplomaticTermDetailSerializer(instance)
+        return Response(ser.data)
 
 
 class DiplomaticTermPhotoAdminView(mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
