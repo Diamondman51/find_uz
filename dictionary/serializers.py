@@ -72,7 +72,7 @@ class DiplomaticTermWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiplomaticTerm
         # exclude = ['photo_id']
-        fields = ['id', 'title', 'categories']
+        fields = ['id', 'title', 'definition', 'related_terms', 'categories', 'related_countries', 'sources']
         extra_kwargs = {'title': {'required': True}, 
                         'definition': {'required': True}, 
                         'related_terms': {'required': False}, 
