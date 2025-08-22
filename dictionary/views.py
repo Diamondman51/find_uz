@@ -102,10 +102,22 @@ class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
     
+    # def list(self, request, *args, **kwargs):
+    #     return super().list(request, *args, **kwargs)
+
     @method_decorator(cache_page(60*5))
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = DiplomaticTermReadSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = DiplomaticTermReadSerializer(queryset, many=True)
+        return Response(serializer.data)
     
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         ser = DiplomaticTermDetailSerializer(instance)
