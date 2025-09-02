@@ -26,7 +26,7 @@ SECRET_KEY = secrets.token_hex(32)
 # SECRET_KEY = 'secrets.token_hex(32)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
