@@ -26,7 +26,7 @@ SECRET_KEY = secrets.token_hex(32)
 # SECRET_KEY = 'secrets.token_hex(32)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'dictionary',
     'corsheaders',
+    'manager',
 ]
 
 AUTHENTICATION_BACKENDS = [

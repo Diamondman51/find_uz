@@ -1,4 +1,3 @@
-import datetime
 from django import forms
 from django.contrib import admin
 
@@ -89,7 +88,7 @@ class DictUserForm(forms.ModelForm):
 
 class DictUserAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
-    readonly_fields = ['user__created_at', 'user__updated_at']
+    readonly_fields = ['user_created_at', 'user_updated_at']
     form = DictUserForm
     list_display = ['id', 'dict_admin', 'username', 'email', 'phone_number', 'user']
     list_display_links = ['id', 'dict_admin', 'username',]
@@ -103,6 +102,14 @@ class DictUserAdmin(admin.ModelAdmin):
 
     def phone_number(self, obj):
         return obj.user.phone_number
+
+    def user_created_at(self, obj: DictUser):
+        return obj.user.created_at
+    
+    def user_updated_at(self, obj: DictUser):
+        return obj.user.updated_at
+
+    user_created_at.short_description = "User Created At"
 
 
 # Register your models here.

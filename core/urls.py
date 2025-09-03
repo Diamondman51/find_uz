@@ -32,4 +32,5 @@ urlpatterns = [
     path('finduz/', include('api.urls')),
     path('auth/', include('authenticate.urls')),
     path('dictionary/', include('dictionary.urls')),
+    path('manager/', include("manager.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
