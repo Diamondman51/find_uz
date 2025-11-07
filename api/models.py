@@ -22,14 +22,7 @@ class User(AbstractUser):
         if not self.phone_number or not re.match(reg, self.phone_number):
             raise ValidationError({'phone_number': 'Phone number must be in the format +998901234567'})
     
-    def set_password(self, raw_password):
-        if not raw_password.startswith('pbkdf2_sha'):
-            return super().set_password(raw_password)
-        return raw_password
-    
-    def save(self, *args, **kwargs):
-        self.set_password(self.password)
-        return super().save(*args, **kwargs)
+Осторожно
 
     @property
     def full_name(self):

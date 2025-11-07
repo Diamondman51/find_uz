@@ -16,6 +16,7 @@ dependencies = [
     "django-cors-headers>=4.7.0",
     "djangorestframework==3.16.0",
     "djangorestframework-simplejwt==5.5.0",
+    "doc-to-readme>=1.2.0",
     "drf-orjson-renderer>=1.7.3",
     "drf-spectacular==0.28.0",
     "h11==0.16.0",

@@ -1,0 +1,78 @@
+
+## Functions & Classes  
+| Module | Type | Name/Call | Description |
+| --- | --- | --- | --- |
+| [admin.py](.\admin.py) | class  | <pre lang='py'>DiplomaticTermAdmin</pre> | None |
+| [admin.py](.\admin.py) | class  | <pre lang='py'>DiplomaticTermPhotoAdmin</pre> | None |
+| [admin.py](.\admin.py) | class  | <pre lang='py'>CategoryAdmin</pre> | None |
+| [admin.py](.\admin.py) | class  | <pre lang='py'>CountryAdmin</pre> | None |
+| [admin.py](.\admin.py) | class  | <pre lang='py'>SourceAdmin</pre> | None |
+| [admin.py](.\admin.py) | class  | <pre lang='py'>ContactAdmin</pre> | None |
+| [apps.py](.\apps.py) | class  | <pre lang='py'>DictionaryConfig</pre> | None |
+| [0001_initial.py](.\migrations\0001_initial.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0002_category_country_source_diplomaticterm_category_and_more.py](.\migrations\0002_category_country_source_diplomaticterm_category_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0003_alter_category_options_alter_country_options_and_more.py](.\migrations\0003_alter_category_options_alter_country_options_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0004_alter_diplomaticterm_related_countries_and_more.py](.\migrations\0004_alter_diplomaticterm_related_countries_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0005_alter_source_options_alter_source_url.py](.\migrations\0005_alter_source_options_alter_source_url.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0006_remove_diplomaticterm_photo_and_more.py](.\migrations\0006_remove_diplomaticterm_photo_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0007_remove_diplomatictermphoto_term_id_and_more.py](.\migrations\0007_remove_diplomatictermphoto_term_id_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0008_diplomaticterm_updated_at_and_more.py](.\migrations\0008_diplomaticterm_updated_at_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0009_category_created_at_category_updated_at_and_more.py](.\migrations\0009_category_created_at_category_updated_at_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0010_contact_rename_category_diplomaticterm_categories.py](.\migrations\0010_contact_rename_category_diplomaticterm_categories.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0011_alter_source_options_contact_user.py](.\migrations\0011_alter_source_options_contact_user.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0012_alter_diplomaticterm_categories_and_more.py](.\migrations\0012_alter_diplomaticterm_categories_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0013_alter_diplomaticterm_categories_and_more.py](.\migrations\0013_alter_diplomaticterm_categories_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0014_alter_diplomaticterm_categories_and_more.py](.\migrations\0014_alter_diplomaticterm_categories_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0015_alter_diplomaticterm_categories_and_more.py](.\migrations\0015_alter_diplomaticterm_categories_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0016_alter_diplomaticterm_categories_and_more.py](.\migrations\0016_alter_diplomaticterm_categories_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0017_alter_diplomaticterm_categories_and_more.py](.\migrations\0017_alter_diplomaticterm_categories_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [0018_alter_diplomaticterm_categories_and_more.py](.\migrations\0018_alter_diplomaticterm_categories_and_more.py) | class  | <pre lang='py'>Migration</pre> | None |
+| [models.py](.\models.py) | class  | <pre lang='py'>DiplomaticTerm</pre> | None |
+| [models.py](.\models.py) | class  | <pre lang='py'>DiplomaticTermPhoto</pre> | None |
+| [models.py](.\models.py) | class  | <pre lang='py'>Category</pre> | None |
+| [models.py](.\models.py) | class  | <pre lang='py'>Meta</pre> | None |
+| [models.py](.\models.py) | class  | <pre lang='py'>Country</pre> | None |
+| [models.py](.\models.py) | class  | <pre lang='py'>Source</pre> | None |
+| [models.py](.\models.py) | class  | <pre lang='py'>Contact</pre> | None |
+| [permissions.py](.\permissions.py) | class  | <pre lang='py'>IsAdmin</pre> | None |
+| [permissions.py](.\permissions.py) | method (IsAdmin) | <pre lang='py'>has_permission(self, request, view)</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>DiplomaticTermPhotoSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>Meta</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>SourceSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>CountrySerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>CategorySerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>RelatedDiplomaticTermSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>DiplomaticTermReadSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>DiplomaticTermDetailSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>DiplomaticTermWriteSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>ContactSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | class  | <pre lang='py'>DictUserSerializer</pre> | None |
+| [serializers.py](.\serializers.py) | method (DictUserSerializer) | <pre lang='py'>update(self, instance, validated_data)</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>DictUserView</pre> | destroy : This method is used to delete a DictUser instance. Only superusers can delete a DictUser . If the request user is not a superuser, a response with status code 403 and a message "You do not have required permission" is returned. partial_update : This method is used to partially update a DictUser instance. Only superusers can partially update a DictUser e:\find_uz\dictionary\views.py . If the request user is not a superuser, a response with status code 403 and a message "You do not have required permission" is returned. update : This method is used to update a DictUser instance. Only superusers can update a DictUser . If the request user is not a superuser, a response with status code 403 and a message "You do not have required permission" is returned. list : This method is used to list all DictUser instances excluding the current user. Only superusers and dict_admins can list all DictUser instances. If the request user is not a superuser or dict_admin, a response with status code 403 and a message "You do not have required permission" is returned. retrieve : This method is used to retrieve a DictUser instance. Only superusers and dict_admins can retrieve a DictUser instance. If the request user is not a superuser or dict_admin, a response with status code 403 and a message "You do not have required permission" is returned. |
+| [views.py](.\views.py) | method (DictUserView) | <pre lang='py'>destroy(self, request, *args, **kwargs)</pre> | Destroy a DictUser instance. Only superusers can delete a DictUser. If the request user is not a superuser, a response with status code 403 and a message "You do not have required permission" is returned. Parameters:   request (Request): The request containing the user and other relevant data.   *args: Variable length argument list.   **kwargs: Arbitrary keyword arguments. Returns:   Response: A response containing the result of the delete operation.    |
+| [views.py](.\views.py) | method (DictUserView) | <pre lang='py'>partial_update(self, request, *args, **kwargs)</pre> | Partially update a DictUser instance. Only superusers can partially update a DictUser. If the request user is not a superuser, a response with status code 403 and a message "You do not have required permission" is returned. Parameters:   request (Request): The request containing the user and other relevant data.   *args: Variable length argument list.   **kwargs: Arbitrary keyword arguments. Returns:   Response: A response containing the result of the partial update operation. |
+| [views.py](.\views.py) | method (DictUserView) | <pre lang='py'>update(self, request, *args, **kwargs)</pre> | Update a DictUser instance. Only superusers can update a DictUser. If the request user is not a superuser, a response with status code 403 and a message "You do not have required permission" is returned. Parameters:   request (Request): The request containing the user and other relevant data.   *args: Variable length argument list.   **kwargs: Arbitrary keyword arguments. Returns:   Response: A response containing the result of the update operation. |
+| [views.py](.\views.py) | method (CreateDiplomaticTermView) | <pre lang='py'>list(self, request, *args, **kwargs)</pre> | List all DiplomaticTerm instances. This view caches the result for 5 minutes. Parameters:   request (Request): The request containing the user and other relevant data.   *args: Variable length argument list.   **kwargs: Arbitrary keyword arguments. Returns:   Response: A response containing the list of DiplomaticTerm instances. |
+| [views.py](.\views.py) | method (CreateDiplomaticTermView) | <pre lang='py'>retrieve(self, request, *args, **kwargs)</pre> | Retrieve a DiplomaticTerm instance. Parameters:   request (Request): The request containing the user and other relevant data.   *args: Variable length argument list.   **kwargs: Arbitrary keyword arguments. Returns:   Response: A response containing the DiplomaticTerm instance. |
+| [views.py](.\views.py) | class  | <pre lang='py'>DiplomaticTermView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>DiplomaticTermDetailView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>SearchTermView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>CreateDiplomaticTermView</pre> | None |
+| [views.py](.\views.py) | method (UserCreateView) | <pre lang='py'>create(self, request, *args, **kwargs)</pre> | Create a new User instance. Parameters:   request (Request): The request containing the data for the new User instance.   *args: Variable length argument list.   **kwargs: Arbitrary keyword arguments. Returns:   Response: A response containing the data for the new User instance. Raises:   ValidationError: If the input data is invalid. |
+| [views.py](.\views.py) | class  | <pre lang='py'>DiplomaticTermPhotoAdminView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>DiplomaticTermPhotoView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>CountryAdminView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>CountryView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>SourceAdminView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>SourceView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>CategoryView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>CreateCategoryView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>UserCreateView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>ContactView</pre> | None |
+| [views.py](.\views.py) | class  | <pre lang='py'>ContactAdminView</pre> | None |
+
+Created with: [doc_to_readme](https://github.com/ziselsberger/doc_to_readme)  
+[MIT](https://github.com/ziselsberger/doc_to_readme/blob/main/LICENSE) &copy; 2023 Mirjam Ziselsberger
+
+---
+**Last Update:** 2025-11-07
