@@ -22,7 +22,7 @@ class User(AbstractUser):
         if not self.phone_number or not re.match(reg, self.phone_number):
             raise ValidationError({'phone_number': 'Phone number must be in the format +998901234567'})
     
-Осторожно
+# Осторожно
 
     @property
     def full_name(self):
