@@ -21,7 +21,7 @@ class User(AbstractUser):
         reg = r'^\+?998[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})$'
         if not self.phone_number or not re.match(reg, self.phone_number):
             raise ValidationError({'phone_number': 'Phone number must be in the format +998901234567'})
-    
+
 # Осторожно
 
     @property
