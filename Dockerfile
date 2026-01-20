@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-# ADD . /app
+ADD . /app
 
 WORKDIR /app
 
@@ -10,6 +10,7 @@ RUN pip install uv
 COPY . .
 RUN uv sync
 
+CMD ["uv", "run", "uvicorn", "core.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
 # EXPOSE 8000
 
 # COPY requirements.txt ./
@@ -24,4 +25,3 @@ RUN uv sync
 
 
 # # CMD ["python", "-m", "uvicorn", "core.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
-CMD ["uv", "run", "uvicorn", "core.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
