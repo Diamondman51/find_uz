@@ -1,9 +1,8 @@
-from rest_framework.throttling import SlidingRateThrottle
+from rest_framework.throttling import ScopedRateThrottle
 
-
-class DictionaryAnonSlidingThrottle(SlidingRateThrottle):
+class DictionaryAnonSlidingThrottle(ScopedRateThrottle):
     scope = 'dictionary_anon'
 
 
-class DictionaryUserSlidingThrottle(SlidingRateThrottle):
+class DictionaryUserSlidingThrottle(ScopedRateThrottle):
     scope = 'dictionary_user'
