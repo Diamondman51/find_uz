@@ -29,8 +29,8 @@ urlpatterns = [
     path('api/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
-    path('finduz/', include('api.urls')),
-    path('auth/', include('authenticate.urls')),
-    path('dictionary/', include('dictionary.urls')),
-    path('manager/', include("manager.urls"))
+    path('api/finduz/', include('api.urls')),
+    path('api/auth/', include('authenticate.urls')),
+    path('api/dictionary/', include('dictionary.urls')),
+    path('api/manager/', include("manager.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
