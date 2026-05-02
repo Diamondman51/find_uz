@@ -192,6 +192,10 @@ class SearchTermView(mixins.ListModelMixin, GenericViewSet):
     search_fields = ['title',]
     throttle_classes = [DictionaryAnonSlidingThrottle]
 
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     queryset = DiplomaticTerm.objects.prefetch_related(
