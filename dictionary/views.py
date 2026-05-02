@@ -186,7 +186,7 @@ class DiplomaticTermDetailView(mixins.RetrieveModelMixin, GenericViewSet):
 
 
 class SearchTermView(mixins.ListModelMixin, GenericViewSet):
-    queryset = DiplomaticTerm.objects.all()
+    queryset = DiplomaticTerm.objects.all().order_by('-created_at')
     serializer_class = DiplomaticTermReadSerializer
     filter_backends = [SearchFilter]
     search_fields = ['title',]
