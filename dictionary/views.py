@@ -14,6 +14,7 @@ from django.views.decorators.cache import cache_page
 from api.serializers import UserSerializer
 from dictionary.models import Category, Contact, Country, DiplomaticTerm, DiplomaticTermPhoto, Source
 from dictionary.serializers import CategorySerializer, ContactSerializer, CountrySerializer, DictUserSerializer, DiplomaticTermDetailSerializer, DiplomaticTermPhotoSerializer, DiplomaticTermReadSerializer, DiplomaticTermWriteSerializer, SourceSerializer
+from dictionary.throttles import DictionaryAnonSlidingThrottle, DictionaryUserSlidingThrottle
 
 
 # Create your views here.
@@ -53,6 +54,7 @@ DictUser
     queryset = DictUser.objects.select_related('user')
     serializer_class = DictUserSerializer
     permission_classes = [IsAuthenticated]
+    throttle_classes = [DictionaryUserSlidingThrottle]
     
 
     def destroy(self, request, *args, **kwargs):
@@ -153,6 +155,7 @@ class DiplomaticTermView(mixins.ListModelMixin, GenericViewSet):
     #     'photo_id',
     # )
     serializer_class = DiplomaticTermReadSerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
     @method_decorator(cache_page(60*5))
     def list(self, request, *args, **kwargs):
@@ -179,6 +182,7 @@ class DiplomaticTermDetailView(mixins.RetrieveModelMixin, GenericViewSet):
     #     'photo_id',
     # )
     serializer_class = DiplomaticTermDetailSerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
 class SearchTermView(mixins.ListModelMixin, GenericViewSet):
@@ -186,6 +190,7 @@ class SearchTermView(mixins.ListModelMixin, GenericViewSet):
     serializer_class = DiplomaticTermReadSerializer
     filter_backends = [SearchFilter]
     search_fields = ['title',]
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
 class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
@@ -200,7 +205,8 @@ class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin
     serializer_class = DiplomaticTermWriteSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
-    
+    throttle_classes = [DictionaryUserSlidingThrottle]
+
     # def list(self, request, *args, **kwargs):
     #     return super().list(request, *args, **kwargs)
 
@@ -263,11 +269,13 @@ class DiplomaticTermPhotoAdminView(mixins.ListModelMixin, mixins.UpdateModelMixi
     serializer_class = DiplomaticTermPhotoSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
+    throttle_classes = [DictionaryUserSlidingThrottle]
 
 
 class DiplomaticTermPhotoView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = DiplomaticTermPhoto.objects.all()
     serializer_class = DiplomaticTermPhotoSerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
 class CountryAdminView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
@@ -275,11 +283,13 @@ class CountryAdminView(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.
     serializer_class = CountrySerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
+    throttle_classes = [DictionaryUserSlidingThrottle]
 
 
 class CountryView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
 class SourceAdminView(mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
@@ -287,16 +297,19 @@ class SourceAdminView(mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.Ret
     serializer_class = SourceSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
+    throttle_classes = [DictionaryUserSlidingThrottle]
 
 
 class SourceView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = Source.objects.all()
     serializer_class = SourceSerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
 class CategoryView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
 class CreateCategoryView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet):
@@ -304,10 +317,12 @@ class CreateCategoryView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixi
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
+    throttle_classes = [DictionaryUserSlidingThrottle]
 
 
 class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = UserSerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
     
     def create(self, request, *args, **kwargs):
         """
@@ -332,6 +347,7 @@ class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
 class ContactView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = ContactSerializer
     queryset = Contact.objects.all()
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
 class ContactAdminView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
@@ -339,3 +355,4 @@ class ContactAdminView(mixins.ListModelMixin, mixins.RetrieveModelMixin, Generic
     serializer_class = ContactSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication, BasicAuthentication]
+    throttle_classes = [DictionaryUserSlidingThrottle]

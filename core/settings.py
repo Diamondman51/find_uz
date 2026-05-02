@@ -73,6 +73,10 @@ REST_FRAMEWORK = {
         "drf_orjson_renderer.renderers.ORJSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ),
+    'DEFAULT_THROTTLE_RATES': {
+        'dictionary_anon': '60/minute',
+        'dictionary_user': '100/minute',
+    },
 }
 
 SPECTACULAR_SETTINGS = {
