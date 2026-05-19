@@ -1,51 +1,68 @@
-from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import BasicAuthentication
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework import mixins, status
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.viewsets import GenericViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from api.models import User
 from api.serializers import UserSerializer
 from dictionary.models import Category, DiplomaticTerm
-from dictionary.serializers import DiplomaticTermSerializer
+from dictionary.permissions import IsSuperuserOrDictAdmin
+from dictionary.serializers import (
+    CategorySerializer,
+    DiplomaticTermDetailSerializer,
+    DiplomaticTermReadSerializer,
+    DiplomaticTermWriteSerializer,
+)
+from dictionary.throttles import DictionaryAnonSlidingThrottle, DictionaryUserSlidingThrottle
 
 
-# Create your views here.
+DETAIL_PREFETCH = ('related_terms', 'related_countries', 'sources')
+DETAIL_SELECT = ('category',)
+
 
 class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
-    queryset = DiplomaticTerm.objects.all()
-    serializer_class = DiplomaticTermSerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
+
+    def get_queryset(self):
+        if self.action == 'retrieve':
+            return DiplomaticTerm.objects.select_related(*DETAIL_SELECT).prefetch_related(*DETAIL_PREFETCH)
+        return DiplomaticTerm.objects.all()
+
+    def get_serializer_class(self):
+        return DiplomaticTermDetailSerializer if self.action == 'retrieve' else DiplomaticTermReadSerializer
 
 
-class CreateDiplomaticTermView(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet):
+class CreateDiplomaticTermView(
+    mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet,
+):
     queryset = DiplomaticTerm.objects.all()
-    serializer_class = DiplomaticTermSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication, BasicAuthentication]
+    serializer_class = DiplomaticTermWriteSerializer
+    permission_classes = [IsSuperuserOrDictAdmin]
+    authentication_classes = [JWTAuthentication]
+    throttle_classes = [DictionaryUserSlidingThrottle]
 
 
 class CategoryView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
-    queryset = Category.objects.all()
-    serializer_class = DiplomaticTermSerializer
+    queryset = Category.objects.all().order_by('id')
+    serializer_class = CategorySerializer
+    throttle_classes = [DictionaryAnonSlidingThrottle]
 
 
-class CreateCategoryView(mixins.CreateModelMixin, GenericViewSet):
-    queryset = Category.objects.all()
-    serializer_class = DiplomaticTermSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication, BasicAuthentication]
+class CreateCategoryView(
+    mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet,
+):
+    queryset = Category.objects.all().order_by('id')
+    serializer_class = CategorySerializer
+    permission_classes = [IsSuperuserOrDictAdmin]
+    authentication_classes = [JWTAuthentication]
+    throttle_classes = [DictionaryUserSlidingThrottle]
 
 
 class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = UserSerializer
-    
+    throttle_classes = [DictionaryAnonSlidingThrottle]
+
     def create(self, request, *args, **kwargs):
-        print(f'{request.headers=}')
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         user = serializer.save(user_type='dict_user')
-        res = self.get_serializer(user)
-        return Response(res.data, status=status.HTTP_201_CREATED)
+        return Response(self.get_serializer(user).data, status=status.HTTP_201_CREATED)

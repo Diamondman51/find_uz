@@ -1,9 +1,7 @@
-from email import message
-import json
 import re
-from django.http import HttpResponse
+
 from rest_framework import serializers
-from drf_spectacular.utils import extend_schema_serializer
+
 from api.models import ItemImages, Items, Message, MessageFile, MessageImage, User
 
 
@@ -11,20 +9,40 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'phone_number', 'password', 'user_type']
-        extra_kwargs = {'password': {'write_only': True}, "user_type": {"read_only": True}}
+        extra_kwargs = {
+            'password': {'write_only': True, 'min_length': 8},
+            'user_type': {'read_only': True},
+            'phone_number': {'required': True},
+        }
 
     def validate_phone_number(self, phone_number):
         reg = r'^\+?998[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})$'
-        if not re.match(reg, phone_number):
+        if not phone_number or not re.match(reg, phone_number):
             raise serializers.ValidationError("Invalid phone number")
-        
         return phone_number
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if password:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
 
 class ItemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Items
-        fields = ['id', 'user', 'item_name', 'category', 'status', 'date_lost_found', 'time_lost_found', 'color', 'brand', 'longitude', 'latitude']
+        fields = ['id', 'user', 'item_name', 'category', 'status', 'date_lost_found',
+                  'time_lost_found', 'color', 'brand', 'longitude', 'latitude']
 
 
 class ItemImagesSerializer(serializers.ModelSerializer):
@@ -46,22 +64,15 @@ class MessageFilesSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
-
     messageimages = MessageImagesSerializer(many=True, read_only=True, required=False)
     messagefiles = MessageFilesSerializer(many=True, read_only=True, required=False)
-
-    # messageimages = serializers.SerializerMethodField()
-    # messagefiles = serializers.SerializerMethodField()        
 
     class Meta:
         model = Message
         fields = ['id', 'sender', 'receiver', 'content', 'image', 'file', 'messageimages', 'messagefiles']
-        # extra_kwargs = {"messageimages": {'write_only': True}, "messagefiles": {'write_only': True}}
 
 
 class CreateMessageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Message
         fields = ['id', 'sender', 'receiver', 'content', 'image', 'file']
-        
