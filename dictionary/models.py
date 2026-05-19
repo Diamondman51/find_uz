@@ -19,6 +19,14 @@ class DiplomaticTerm(models.Model):
             models.Index(fields=['category']),
         ]
 
+    def delete(self, using=None, keep_parents=False):
+        if self.photo:
+            try:
+                self.photo.delete(save=False)
+            except (ValueError, FileNotFoundError):
+                pass
+        return super().delete(using, keep_parents)
+
     def __str__(self):
         return self.title
 

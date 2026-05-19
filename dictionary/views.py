@@ -17,6 +17,9 @@ from dictionary.throttles import DictionaryAnonSlidingThrottle, DictionaryUserSl
 
 DETAIL_PREFETCH = ('related_terms', 'related_countries', 'sources')
 DETAIL_SELECT = ('category',)
+# Columns actually used by DiplomaticTermReadSerializer; .only() skips the
+# heavy `definition` TextField on list responses.
+LIST_ONLY = ('id', 'title', 'photo', 'created_at', 'updated_at')
 
 
 class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
@@ -24,8 +27,12 @@ class DiplomaticTermView(mixins.ListModelMixin, mixins.RetrieveModelMixin, Gener
 
     def get_queryset(self):
         if self.action == 'retrieve':
-            return DiplomaticTerm.objects.select_related(*DETAIL_SELECT).prefetch_related(*DETAIL_PREFETCH)
-        return DiplomaticTerm.objects.all()
+            return (
+                DiplomaticTerm.objects
+                .select_related(*DETAIL_SELECT)
+                .prefetch_related(*DETAIL_PREFETCH)
+            )
+        return DiplomaticTerm.objects.only(*LIST_ONLY).order_by('-created_at')
 
     def get_serializer_class(self):
         return DiplomaticTermDetailSerializer if self.action == 'retrieve' else DiplomaticTermReadSerializer

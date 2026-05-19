@@ -19,7 +19,7 @@ from api.serializers import (
 
 
 class UserView(mixins.UpdateModelMixin, mixins.ListModelMixin, GenericViewSet):
-    queryset = User.objects.filter(user_type='find_uz_user')
+    queryset = User.objects.filter(user_type='find_uz_user').order_by('id')
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
@@ -48,7 +48,7 @@ class AdminUserView(
     mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin, GenericViewSet,
 ):
-    queryset = User.objects.filter(user_type='find_uz_user')
+    queryset = User.objects.filter(user_type='find_uz_user').order_by('id')
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
     authentication_classes = [JWTAuthentication]
@@ -61,7 +61,7 @@ class AdminUserView(
 
 
 class ItemsView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
-    queryset = Items.objects.all()
+    queryset = Items.objects.all().order_by('-created_at')
     permission_classes = [AllowAny]
     serializer_class = ItemsSerializer
 
@@ -69,7 +69,7 @@ class ItemsView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet
 class ItemsAuthenticatedView(
     mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet,
 ):
-    queryset = Items.objects.all()
+    queryset = Items.objects.all().order_by('-created_at')
     permission_classes = [IsAuthenticated, IsOwner]
     serializer_class = ItemsSerializer
 
