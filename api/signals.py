@@ -8,9 +8,9 @@ from api.models import DictUser, User
 def ensure_dict_user(sender, instance: User, created, **kwargs):
     """Idempotently maintain a DictUser row whenever User.user_type == 'dict_user'.
 
-    Fires on both create and post-create updates, so promoting a user from
-    'find_uz_user' → 'dict_user' also provisions the row. Get_or_create avoids
-    duplicate-key errors when the row already exists.
+    Fires on both create and post-create updates, so promoting an untyped user
+    to 'dict_user' also provisions the row. Get_or_create avoids duplicate-key
+    errors when the row already exists.
     """
     if instance.user_type != 'dict_user':
         return

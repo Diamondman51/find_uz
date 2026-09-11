@@ -62,7 +62,6 @@ class EnsureDictUserSignalTests(TestCase):
     def test_dict_user_created_on_post_create_promotion(self):
         user = User.objects.create_user(
             username='promoteme', phone_number='+998902222222', password='pw-12345',
-            user_type='find_uz_user',
         )
         self.assertFalse(DictUser.objects.filter(user=user).exists())
 

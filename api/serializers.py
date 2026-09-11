@@ -2,7 +2,7 @@ import re
 
 from rest_framework import serializers
 
-from api.models import ItemImages, Items, Message, MessageFile, MessageImage, User
+from api.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,43 +36,3 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-
-
-class ItemsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Items
-        fields = ['id', 'user', 'item_name', 'category', 'status', 'date_lost_found',
-                  'time_lost_found', 'color', 'brand', 'longitude', 'latitude']
-
-
-class ItemImagesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ItemImages
-        fields = ['id', 'item', 'image']
-
-
-class MessageImagesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MessageImage
-        fields = ['id', 'message', 'image']
-
-
-class MessageFilesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MessageFile
-        fields = ['id', 'message', 'file']
-
-
-class MessageSerializer(serializers.ModelSerializer):
-    messageimages = MessageImagesSerializer(many=True, read_only=True, required=False)
-    messagefiles = MessageFilesSerializer(many=True, read_only=True, required=False)
-
-    class Meta:
-        model = Message
-        fields = ['id', 'sender', 'receiver', 'content', 'image', 'file', 'messageimages', 'messagefiles']
-
-
-class CreateMessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        fields = ['id', 'sender', 'receiver', 'content', 'image', 'file']

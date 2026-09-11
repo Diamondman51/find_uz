@@ -11,9 +11,9 @@ ignore = ["E501"]
 "*/migrations/*" = ["E", "F", "B"]
 
 [project]
-name = "find-uz"
+name = "dictionary"
 version = "0.1.0"
-description = "Dictionary + find-uz Django REST API"
+description = "Diplomatic dictionary Django REST API"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

@@ -14,7 +14,7 @@ RUN uv sync --frozen --no-dev || uv sync --no-dev
 # --- runtime stage ---
 FROM python:3.12-slim AS runtime
 
-LABEL org.opencontainers.image.title=finduz
+LABEL org.opencontainers.image.title=dictionary
 LABEL org.opencontainers.image.version=0.1.0
 LABEL org.opencontainers.image.authors="Javakhir Shavkatov <zshavkatov51@gmail.com>"
 
